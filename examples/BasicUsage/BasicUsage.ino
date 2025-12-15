@@ -4,6 +4,7 @@
 // with the WFAN920 module.
 
 #include <WFAN920.h>
+#include "jpeg50.h" // 50KB JPEG image data
 
 WFAN920 fan;
 
@@ -41,6 +42,8 @@ void loop()
     Serial.println("  5: set Border Router mode.");
     Serial.println("  6: set Router mode.");
     Serial.println("  7: set Leaf mode.");
+    Serial.println("  a: switch to internal ANT1.");
+    Serial.println("  b: switch to external ANT2.");
     Serial.println("  i: set IP address space. (\"2001:db8::1/48\")");
     Serial.println("  n: display FAN node.");
     Serial.println("  p: send ping. (\"2001:db8::1\")");
@@ -48,6 +51,7 @@ void loop()
     Serial.println("  s: save and reset. must be executed after set mode.");
     Serial.println("  t: send a packet over TCP.(\"2001:db8::1\"), \"00112233445566778899AABBCCDDEEFF\")");
     Serial.println("  u: send a packet over TCP.(\"2001:db8::2\"), \"00112233445566778899AABBCCDDEEFF\")");
+    Serial.println("  x: send large data test over TCP.(\"2001:db8::2\"), 50KB JPEG image data");
 
     Serial.println("  0: exit.");
     Serial.println("\033[0m");
@@ -95,6 +99,14 @@ void loop()
             // Set Leaf mode
             len = fan.command->SetModeLeaf();
             break;
+        case 'a':
+            // Switch to internal antenna ANT1
+            len = fan.command->SwitchAntenna(1);
+            break;
+        case 'b':
+            // Switch to external antenna ANT2
+            len = fan.command->SwitchAntenna(2);
+            break;
         case 'i':
             // Set IP address space
             len = fan.command->SetIpAddressSpace("2001:db8::1/48");
@@ -123,6 +135,37 @@ void loop()
         case 'u':
             // Send a message over TCP
             len = fan.command->SendTcp("2001:db8::2", "00112233445566778899AABBCCDDEEFF");
+            break;
+        case 'x':
+            // Send large data test over TCP
+            {
+                const char* ip = "2001:db8::2";
+                const uint8_t* img = jpeg50;
+                const uint32_t img_size = sizeof(jpeg50);
+                const uint8_t header_size = 4; // "JPG" + chunk number(00~FF)
+                const uint16_t chunk_size = 256; // Send in 256-byte chunks
+                const uint16_t total_blocks = (img_size + chunk_size - 1) / chunk_size;
+                uint32_t block_num = 0;
+
+                while (block_num < total_blocks)
+                {
+                    char data[(header_size + chunk_size) * 2 + 1]; // Each byte as two hex chars + null terminator
+                    memset(data, '0', sizeof(data)); // padding '00'
+                    sprintf(&data[0], "%02X%02X%02X%02X", 'J', 'P', 'G', block_num % 256); // Header with chunk number
+                    uint16_t data_len = 0;
+                    for (uint16_t i = 0; i < chunk_size && (block_num * chunk_size + i) < img_size; i++)
+                    {
+                        sprintf(&data[header_size * 2 + data_len], "%02X", *(img + block_num * chunk_size + i));
+                        data_len += 2;
+                    }
+                    data[header_size * 2 + data_len] = '\0';
+
+                    len = fan.command->SendTcp(ip, data, 400);
+                    Serial.printf("(%03d/%03d) %s\n", block_num + 1, total_blocks, data);
+                    // Serial.printf("(%03d/%03d)\n", block_num, total_blocks);
+                    block_num++;
+                }
+            }
             break;
 
         default:

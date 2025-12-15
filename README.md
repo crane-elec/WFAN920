@@ -37,6 +37,6 @@ To access the detailed command reference for the module, you need to register as
 
 ### Caution
 
-WFAN920は、株式会社日新システムズとは無関係です。そのため、本モジュールのハードウェア・操作・コマンド詳細等すべてにおいて、株式会社日新システムズ様へ絶対に問合せないしないでください。  
-WFAN920 is not affiliated with Nissin Systems Co., Ltd. Therefore, please do not contact Nissin Systems regarding any hardware, operation, or command details of this module.
+WFAN920のハードウェア、およびWFAN920用に提供される本ソフトウェアライブラリのコード内容・操作等については、株式会社日新システムズ社に問い合わせることが無いようご注意ください。
+Please note that inquiries regarding the WFAN920 hardware or the operation and source code of the software library provided for WFAN920 should not be directed to Nissin Systems Co., Ltd.
 

@@ -27,6 +27,10 @@
 #define SET_MODE_ROUTER ("2")
 #define SET_MODE_LEAF ("3")
 
+#define SWITCH_ANTENNA ("rantsw ")
+#define ANTENNA_INTERNAL (1)
+#define ANTENNA_EXTERNAL (2)
+
 #define SET_IP_ADDRESS_SPACE ("ip ")
 #define DISPLAY_FAN_NODE ("fnode ")
 
@@ -116,6 +120,17 @@ uint16_t WFAN920_CMD::SetMode(const char* mode)
     this->ReadSerialToBuffer();
     return COMMAND_SUCCESS;
 }
+uint16_t WFAN920_CMD::SwitchAntenna(uint8_t ant)
+{
+    if (ant != ANTENNA_INTERNAL && ant != ANTENNA_EXTERNAL)
+    {
+        return COMMAND_ERROR; // Invalid antenna option
+    }
+    this->serial->print(SWITCH_ANTENNA);
+    this->serial->println(ant);
+    this->ReadSerialToBuffer();
+    return COMMAND_SUCCESS;
+}
 uint16_t WFAN920_CMD::SetIpAddressSpace(const char* ip)
 {
     if (ip == nullptr || strlen(ip) == 0)
@@ -148,6 +163,10 @@ uint16_t WFAN920_CMD::SendPing(const char* ping)
 }
 uint16_t WFAN920_CMD::SendTcp(const char* ip, const char* data)
 {
+    return this->SendTcp(ip, data, 1000);
+}
+uint16_t WFAN920_CMD::SendTcp(const char* ip, const char* data, uint32_t timeout_ms = 1000)
+{
     if (data == nullptr || strlen(data) == 0)
     {
         return COMMAND_ERROR; // Invalid TCP data
@@ -156,7 +175,7 @@ uint16_t WFAN920_CMD::SendTcp(const char* ip, const char* data)
     this->serial->print(ip);
     this->serial->print(" ");
     this->serial->println(data);
-    this->ReadSerialToBuffer();
+    this->ReadSerialToBuffer(timeout_ms);
     return COMMAND_SUCCESS;
 }
 uint16_t WFAN920_CMD::SaveAndReset()

@@ -27,10 +27,12 @@ public:
     uint16_t SetModeRouter();
     uint16_t SetModeLeaf();
     uint16_t SetMode(const char* mode);
+    uint16_t SwitchAntenna(uint8_t ant);
     uint16_t SetIpAddressSpace(const char* ip);
     uint16_t DisplayFanNode();
     uint16_t SendPing(const char* ping);
     uint16_t SendTcp(const char* ip, const char* data);
+    uint16_t SendTcp(const char* ip, const char* data, uint32_t timeout_ms);
     uint16_t SaveAndReset();
 
     uint16_t Response(uint8_t *buf, uint16_t maxlen);
