@@ -151,7 +151,7 @@ void loop()
                 {
                     char data[(header_size + chunk_size) * 2 + 1]; // Each byte as two hex chars + null terminator
                     memset(data, '0', sizeof(data)); // padding '00'
-                    sprintf(&data[0], "%02X%02X%02X%02X", 'J', 'P', 'G', block_num % 256); // Header with chunk number
+                    sprintf(&data[0], "%02X%02X%02X%02X", 'J', 'P', 'G', (uint8_t)(block_num % 256)); // Header with chunk number
                     uint16_t data_len = 0;
                     for (uint16_t i = 0; i < chunk_size && (block_num * chunk_size + i) < img_size; i++)
                     {
@@ -161,7 +161,7 @@ void loop()
                     data[header_size * 2 + data_len] = '\0';
 
                     len = fan.command->SendTcp(ip, data, 400);
-                    Serial.printf("(%03d/%03d) %s\n", block_num + 1, total_blocks, data);
+                    Serial.printf("(%03d/%03d) %s\n", (uint8_t)(block_num + 1), total_blocks, data);
                     // Serial.printf("(%03d/%03d)\n", block_num, total_blocks);
                     block_num++;
                 }
