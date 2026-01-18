@@ -1,18 +1,59 @@
 ##########################################
+
+##########################################
 # Syntax Coloring Map
 ##########################################
+
 ##########################################
 # Datatypes (KEYWORD1)
 ##########################################
 
-WFAN920    KEYWORD1  WFAN920
+WFAN920	KEYWORD1
+WFAN920_CMD	KEYWORD1
 
 ##########################################
-#  Methods and Functions (KEYWORD2)
+# Methods and Functions (KEYWORD2)
 ##########################################
 
-begin      KEYWORD2
+begin	KEYWORD2
+end	KEYWORD2
+powerOn	KEYWORD2
+powerOff	KEYWORD2
+isPower	KEYWORD2
+serialEnable	KEYWORD2
+serialDisable	KEYWORD2
+isSerial	KEYWORD2
+
+# WFAN920_CMD methods
+SetEchoOff	KEYWORD2
+GetModuleVersion	KEYWORD2
+GetParamerter	KEYWORD2
+SetNetworkName	KEYWORD2
+SetPanId	KEYWORD2
+SetModeBorderRouter	KEYWORD2
+SetModeRouter	KEYWORD2
+SetModeLeaf	KEYWORD2
+SetMode	KEYWORD2
+SwitchAntenna	KEYWORD2
+SetIpAddressSpace	KEYWORD2
+DisplayFanNode	KEYWORD2
+SendPing	KEYWORD2
+SendTcp	KEYWORD2
+SaveAndReset	KEYWORD2
+Response	KEYWORD2
+Write	KEYWORD2
+Read	KEYWORD2
 
 ##########################################
-  Constants (LITERAL1)
+# Constants (LITERAL1)
 ##########################################
+
+PORT_WFAN_PWR_D19	LITERAL1
+PORT_WFAN_PWR_D20	LITERAL1
+PORT_WFAN_PWR_ON	LITERAL1
+PORT_WFAN_RESET	LITERAL1
+PORT_WFAN_SERIAL_OE	LITERAL1
+HW_RESET_TIME_US	LITERAL1
+STARTUP_TIME_MS	LITERAL1
+SERIAL_BAUDRATE	LITERAL1
+BUFFER_SIZE	LITERAL1

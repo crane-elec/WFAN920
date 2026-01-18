@@ -13,11 +13,15 @@ Arduino IDEのライブラリマネージャから「WFAN920」と検索して�
 
 詳しい手順は[Arduinoライブラリのインストール方法](https://docs.arduino.cc/software/ide-v1/tutorials/installing-libraries/)を参照してください。
 
+また、本ライブラリは基本的な機能を提供します。必要に応じてZIPをダウンロードし、ローカルで編集・機能追加してご利用ください。
+
 
 You can install this library by searching for "WFAN920" in the Arduino IDE Library Manager.  
 Alternatively, you can download the ZIP file and install it via the Arduino IDE.
 
 For detailed instructions, please refer to [How to Install Arduino Libraries](https://docs.arduino.cc/software/ide-v1/tutorials/installing-libraries/).
+
+Also this library provides basic functionality. You are encouraged to download the ZIP and modify or extend the code locally to add features as needed.
 
 ## Usage
 
